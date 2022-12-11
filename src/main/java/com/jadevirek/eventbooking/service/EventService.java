@@ -4,7 +4,7 @@ import com.jadevirek.eventbooking.handlers.eceptions.CreateEntityException;
 import com.jadevirek.eventbooking.model.dao.Dao;
 import com.jadevirek.eventbooking.model.dao.EventDao;
 import com.jadevirek.eventbooking.model.dto.Event;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -53,10 +53,11 @@ public class EventService implements Dao<Event> {
     return eventDao.delete(eventId);
   }
 
-  public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws ParseException {
+  public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
     final int defaultPageSize = pageSize == 0 ? 10 : pageSize;
     Assert.notNull(day, "Date can't be empty!");
-    return eventDao.getEventsForDay("2023-03-09", defaultPageSize, pageNum);
+    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    return eventDao.getEventsForDay(formatter.format(day), defaultPageSize, pageNum);
   }
 
   public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {

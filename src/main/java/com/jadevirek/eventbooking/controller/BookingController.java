@@ -85,10 +85,8 @@ public class BookingController {
       @PathVariable @DateTimeFormat(iso = ISO.DATE) Date day,
       @RequestParam(required = false, defaultValue = "10") int pageSize,
       @RequestParam(required = false, defaultValue = "0") int pageNum) throws ParseException {
-    final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-
     return Optional.of(bookingFacade
-        .getEventsForDay(formatter.parse(formatter.format(day)), pageSize, pageNum))
+        .getEventsForDay(day, pageSize, pageNum))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound()
             .build());
